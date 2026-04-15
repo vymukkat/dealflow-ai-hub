@@ -3,6 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { EngagementChart } from "@/components/charts/EngagementChart";
+import { engagementData, topSearchTerms, kpiSummary } from "@/lib/dummyData";
 
 const stats = [
   { label: "Subscribers", value: "124K" },
@@ -11,8 +13,12 @@ const stats = [
   { label: "Est. CPM", value: "$14.20" },
   { label: "Watch Time", value: "6m 42s" },
   { label: "Deal Min.", value: "$2,000" },
+  { label: "RPM", value: kpiSummary.rpm },
+  { label: "Unique Viewers", value: kpiSummary.uniqueViewers },
   { label: "Format", value: "Integration" },
   { label: "Top Market", value: "AU" },
+  { label: "Monthly Rev.", value: kpiSummary.estRevenue },
+  { label: "Impressions", value: kpiSummary.impressions },
 ];
 
 const countries = [
@@ -56,12 +62,12 @@ export default function MediaKit() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4">
         {stats.map((s) => (
           <Card key={s.label}>
             <CardContent className="p-4 text-center">
-              <p className="text-2xl font-bold">{s.value}</p>
-              <p className="text-xs text-muted-foreground">{s.label}</p>
+              <p className="text-xl font-bold">{s.value}</p>
+              <p className="text-[10px] text-muted-foreground">{s.label}</p>
             </CardContent>
           </Card>
         ))}
@@ -73,6 +79,14 @@ export default function MediaKit() {
           <p className="text-sm leading-relaxed text-muted-foreground">
             Wes Mukkati is one of Australia's leading hockey content creators, delivering in-depth analysis, game highlights, and player interviews to a highly engaged audience of 124K subscribers. Known for sharp tactical breakdowns and authentic storytelling...
           </p>
+        </CardContent>
+      </Card>
+
+      {/* Engagement Trend Mini Chart */}
+      <Card>
+        <CardHeader><CardTitle className="text-lg">Engagement Trend (28 Days)</CardTitle></CardHeader>
+        <CardContent>
+          <EngagementChart data={engagementData} />
         </CardContent>
       </Card>
 
@@ -136,6 +150,20 @@ export default function MediaKit() {
               <span className="text-xs text-muted-foreground w-8 text-right">{t.pct}%</span>
             </div>
           ))}
+        </CardContent>
+      </Card>
+
+      {/* Top Search Terms */}
+      <Card>
+        <CardHeader><CardTitle className="text-lg">Top Search Terms</CardTitle></CardHeader>
+        <CardContent>
+          <div className="flex flex-wrap gap-2">
+            {topSearchTerms.slice(0, 8).map((t) => (
+              <Badge key={t.term} variant="secondary" className="text-xs">
+                {t.term} · {t.views.toLocaleString()} views
+              </Badge>
+            ))}
+          </div>
         </CardContent>
       </Card>
 
