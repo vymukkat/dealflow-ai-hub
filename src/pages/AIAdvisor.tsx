@@ -1,10 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Sparkles, Send, ArrowUp, Zap, Mail, User, TrendingUp, Target, Users, DollarSign, Search, MailOpen } from "lucide-react";
+import { Sparkles, Send, ArrowUp, TrendingUp, Target, Users, DollarSign, Search, MailOpen } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -61,14 +60,12 @@ const suggestedQuestions = [
 /* ------------------------------------------------------------------ */
 const seedMessages: ChatMessage[] = [
   {
-    id: "1",
-    role: "user",
+    id: "1", role: "user",
     text: "How is my channel trending this month?",
     timestamp: "Today, 9:41 AM",
   },
   {
-    id: "2",
-    role: "assistant",
+    id: "2", role: "assistant",
     text: "Your channel is in solid growth territory this month. Here's the breakdown:",
     stats: [
       { label: "Subscribers", value: "+4.2%", color: "green", sub: "vs last month", arrow: "up" },
@@ -85,14 +82,12 @@ const seedMessages: ChatMessage[] = [
     timestamp: "Today, 9:41 AM",
   },
   {
-    id: "3",
-    role: "user",
+    id: "3", role: "user",
     text: "Which brands should I prioritise pitching?",
     timestamp: "Today, 9:43 AM",
   },
   {
-    id: "4",
-    role: "assistant",
+    id: "4", role: "assistant",
     text: "Based on your audience profile and current scan data, here's your priority order:",
     table: [
       { rank: "🥇 1", brand: "Spotify", why: "Active hockey partnerships, your demo matches exactly" },
@@ -111,14 +106,12 @@ const seedMessages: ChatMessage[] = [
     timestamp: "Today, 9:44 AM",
   },
   {
-    id: "5",
-    role: "user",
+    id: "5", role: "user",
     text: "What's a fair rate for a 30-second integration?",
     timestamp: "Today, 9:46 AM",
   },
   {
-    id: "6",
-    role: "assistant",
+    id: "6", role: "assistant",
     text: "Based on your channel metrics, here's where you sit in the market:",
     rateCards: [
       { label: "Floor Rate", value: "$800", color: "gray", sub: "minimum for your size" },
@@ -219,9 +212,7 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
             <Sparkles className="h-3.5 w-3.5 text-purple-600" />
           </div>
           <Card className="border shadow-sm">
-            <CardContent className="p-2">
-              <TypingIndicator />
-            </CardContent>
+            <CardContent className="p-2"><TypingIndicator /></CardContent>
           </Card>
         </div>
       </div>
@@ -232,9 +223,7 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
     return (
       <div className="flex justify-end mb-4">
         <div className="max-w-[75%]">
-          <div className="rounded-2xl rounded-br-md bg-primary px-4 py-2.5 text-primary-foreground text-sm">
-            {msg.text}
-          </div>
+          <div className="rounded-2xl rounded-br-md bg-primary px-4 py-2.5 text-primary-foreground text-sm">{msg.text}</div>
           <p className="text-[10px] text-muted-foreground mt-1 text-right">{msg.timestamp}</p>
         </div>
       </div>
@@ -272,9 +261,7 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
                         <Link to={a.to}>{a.label}</Link>
                       </Button>
                     ) : (
-                      <Button key={a.label} variant={a.variant as any} size="sm">
-                        {a.label}
-                      </Button>
+                      <Button key={a.label} variant={a.variant as any} size="sm">{a.label}</Button>
                     ),
                   )}
                 </div>
@@ -289,7 +276,7 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Context Panel                                                      */
+/*  Context Panel — Simplified                                         */
 /* ------------------------------------------------------------------ */
 function ContextPanel() {
   const stats = [
@@ -299,23 +286,16 @@ function ContextPanel() {
     { label: "Engagement", value: "4.8%" },
     { label: "Top Demo", value: "Male 18–34" },
     { label: "Top Country", value: "Australia" },
-    { label: "Est. CPM", value: "$14.20" },
     { label: "Last Scan", value: "2 days ago" },
     { label: "Brands Found", value: "16" },
     { label: "Drafts Ready", value: "3" },
   ];
 
-  const topBrands = [
-    { name: "Spotify", affinity: "94%" },
-    { name: "NordVPN", affinity: "88%" },
-    { name: "AG1", affinity: "82%" },
-  ];
-
   return (
-    <div className="sticky top-6 space-y-4">
+    <div className="sticky top-6">
       <Card>
         <CardContent className="p-4 space-y-0">
-          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Your Channel Snapshot</p>
+          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Your Snapshot</p>
           {stats.map((s, i) => (
             <div key={s.label}>
               <div className="flex justify-between py-1.5 text-sm">
@@ -325,38 +305,9 @@ function ContextPanel() {
               {i < stats.length - 1 && <Separator />}
             </div>
           ))}
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardContent className="p-4">
-          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Recent Scan Highlights</p>
-          <div className="space-y-2">
-            {topBrands.map((b) => (
-              <div key={b.name} className="flex justify-between text-sm">
-                <span className="font-medium">{b.name}</span>
-                <Badge variant="secondary" className="text-xs">{b.affinity} affinity</Badge>
-              </div>
-            ))}
-          </div>
-          <Link to="/brand-radar" className="text-xs text-primary hover:underline mt-3 block">
-            View all 16 →
-          </Link>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardContent className="p-4 space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Quick Actions</p>
-          <Button variant="ghost" size="sm" className="w-full justify-start gap-2">
-            <Zap className="h-4 w-4" /> Run New Scan
-          </Button>
-          <Button variant="ghost" size="sm" className="w-full justify-start gap-2" asChild>
-            <Link to="/drafts"><Mail className="h-4 w-4" /> View Drafts</Link>
-          </Button>
-          <Button variant="ghost" size="sm" className="w-full justify-start gap-2" asChild>
-            <Link to="/media-kit"><User className="h-4 w-4" /> Open Media Kit</Link>
-          </Button>
+          <p className="text-xs text-muted-foreground mt-4 pt-3 border-t">
+            AI responses are based on your live channel data
+          </p>
         </CardContent>
       </Card>
     </div>
@@ -381,28 +332,19 @@ export default function AIAdvisor() {
     if (!value) return;
 
     const userMsg: ChatMessage = {
-      id: Date.now().toString(),
-      role: "user",
-      text: value,
-      timestamp: "Just now",
+      id: Date.now().toString(), role: "user", text: value, timestamp: "Just now",
     };
-
     const typingMsg: ChatMessage = {
-      id: (Date.now() + 1).toString(),
-      role: "assistant",
-      typing: true,
-      timestamp: "",
+      id: (Date.now() + 1).toString(), role: "assistant", typing: true, timestamp: "",
     };
 
     setMessages((prev) => [...prev, userMsg, typingMsg]);
     setInput("");
     setShowSuggestions(false);
 
-    // Simulate AI response after a short delay
     setTimeout(() => {
       const aiMsg: ChatMessage = {
-        id: (Date.now() + 2).toString(),
-        role: "assistant",
+        id: (Date.now() + 2).toString(), role: "assistant",
         text: "That's a great question! Based on your current analytics data, I can see several interesting patterns. Let me pull together a detailed analysis for you — in the full version this would draw from your live YouTube Analytics API data and brand scan results to give you real-time, actionable insights.",
         timestamp: "Just now",
       };
@@ -416,7 +358,6 @@ export default function AIAdvisor() {
     <div className="flex flex-col lg:flex-row gap-6 h-[calc(100vh-6rem)]">
       {/* LEFT — Chat */}
       <div className="flex-1 lg:w-[65%] flex flex-col min-w-0">
-        {/* Header */}
         <div className="mb-4 shrink-0">
           <div className="flex items-center gap-2">
             <Sparkles className="h-6 w-6 text-purple-500" />
@@ -427,16 +368,13 @@ export default function AIAdvisor() {
           </p>
         </div>
 
-        {/* Messages */}
         <ScrollArea className="flex-1 min-h-0">
           <div className="pr-4">
             {isEmpty || showSuggestions ? (
               <div className="flex flex-col items-center justify-center py-16 text-center">
                 <Sparkles className="h-12 w-12 text-purple-300 mb-4" />
                 <h2 className="text-lg font-semibold">What would you like to know?</h2>
-                <p className="text-sm text-muted-foreground mb-6">
-                  Ask about your analytics, audience, or brand strategy
-                </p>
+                <p className="text-sm text-muted-foreground mb-6">Ask about your analytics, audience, or brand strategy</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-w-lg">
                   {suggestedQuestions.map((q) => (
                     <button
@@ -451,40 +389,38 @@ export default function AIAdvisor() {
                 </div>
               </div>
             ) : (
-              <>
-                {messages.map((msg) => (
-                  <MessageBubble key={msg.id} msg={msg} />
-                ))}
-              </>
+              messages.map((msg) => <MessageBubble key={msg.id} msg={msg} />)
             )}
             <div ref={bottomRef} />
           </div>
         </ScrollArea>
 
         {/* Input */}
-        <div className="shrink-0 pt-3 border-t mt-2">
-          <div className="flex gap-2">
+        <div className="shrink-0 pt-4 border-t mt-2">
+          <form
+            onSubmit={(e) => { e.preventDefault(); handleSend(); }}
+            className="flex gap-2"
+          >
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSend()}
               placeholder="Ask about your channel, audience, or brand strategy..."
               className="flex-1"
             />
-            <Button onClick={() => handleSend()} className="bg-purple-600 hover:bg-purple-700 shrink-0">
+            <Button type="submit" size="icon" className="bg-purple-600 hover:bg-purple-700">
               <Send className="h-4 w-4" />
             </Button>
-          </div>
-          <p className="text-[10px] text-muted-foreground mt-1.5 text-center">
+          </form>
+          <p className="text-[10px] text-muted-foreground mt-1.5">
             AI Advisor uses your YouTube Analytics and scan data to answer questions
           </p>
         </div>
       </div>
 
-      {/* RIGHT — Context Panel (hidden on mobile, shown on lg+) */}
-      <aside className="hidden lg:block lg:w-[35%] overflow-auto">
+      {/* RIGHT — Context */}
+      <div className="hidden lg:block lg:w-[35%]">
         <ContextPanel />
-      </aside>
+      </div>
     </div>
   );
 }

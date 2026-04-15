@@ -15,9 +15,15 @@ import {
   Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription,
 } from "@/components/ui/sheet";
 import { Progress } from "@/components/ui/progress";
-import { Search, Building2, Users, CheckCircle2, DollarSign, Mail, ShieldCheck, SkipForward } from "lucide-react";
+import { Search, Building2, Users, CheckCircle2, DollarSign, Mail, SkipForward, Copy, Check } from "lucide-react";
 
 type BrandStatus = "Prospecting" | "Contacted" | "Replied" | "In Negotiation" | "Closed" | "Bounced" | "Skipped";
+
+interface TimelineEntry {
+  date: string;
+  event: string;
+  type: "action" | "positive" | "bounce" | "system";
+}
 
 interface Brand {
   name: string;
@@ -29,7 +35,7 @@ interface Brand {
   dealValue: string;
   nextAction: string;
   contact: { name: string; email: string; title: string; confidence: number };
-  timeline: { date: string; event: string }[];
+  timeline: TimelineEntry[];
 }
 
 const brands: Brand[] = [
@@ -38,9 +44,9 @@ const brands: Brand[] = [
     status: "In Negotiation", lastContact: "2 days ago", dealValue: "$3,500", nextAction: "Follow up",
     contact: { name: "Alessia E.", email: "alessiae@spotify.com", title: "Sr. Partnerships Manager", confidence: 92 },
     timeline: [
-      { date: "Today", event: "Draft email created by AI" },
-      { date: "3 days ago", event: "Email sent to alessiae@spotify.com" },
-      { date: "5 days ago", event: "Brand detected in scan (8 channels)" },
+      { date: "Today", event: "Draft email created by AI", type: "action" },
+      { date: "3 days ago", event: "Email sent to alessiae@spotify.com", type: "action" },
+      { date: "5 days ago", event: "Brand detected in scan (8 channels)", type: "system" },
     ],
   },
   {
@@ -48,8 +54,8 @@ const brands: Brand[] = [
     status: "Contacted", lastContact: "5 days ago", dealValue: "—", nextAction: "Awaiting reply",
     contact: { name: "Marcus L.", email: "marcus@nordvpn.com", title: "Influencer Manager", confidence: 87 },
     timeline: [
-      { date: "5 days ago", event: "Outreach email sent" },
-      { date: "1 week ago", event: "Brand detected in scan (12 channels)" },
+      { date: "5 days ago", event: "Outreach email sent", type: "action" },
+      { date: "1 week ago", event: "Brand detected in scan (12 channels)", type: "system" },
     ],
   },
   {
@@ -57,7 +63,7 @@ const brands: Brand[] = [
     status: "Prospecting", lastContact: "—", dealValue: "—", nextAction: "Draft email",
     contact: { name: "Sarah K.", email: "sarah@drinkag1.com", title: "Creator Partnerships", confidence: 78 },
     timeline: [
-      { date: "2 days ago", event: "Brand detected in scan (15 channels)" },
+      { date: "2 days ago", event: "Brand detected in scan (15 channels)", type: "system" },
     ],
   },
   {
@@ -65,9 +71,9 @@ const brands: Brand[] = [
     status: "Contacted", lastContact: "3 days ago", dealValue: "—", nextAction: "Awaiting reply",
     contact: { name: "Jason T.", email: "jason@draftkings.com", title: "Content Partnerships", confidence: 81 },
     timeline: [
-      { date: "3 days ago", event: "Follow-up email sent" },
-      { date: "1 week ago", event: "Initial outreach sent" },
-      { date: "2 weeks ago", event: "Brand detected in scan (6 channels)" },
+      { date: "3 days ago", event: "Follow-up email sent", type: "action" },
+      { date: "1 week ago", event: "Initial outreach sent", type: "action" },
+      { date: "2 weeks ago", event: "Brand detected in scan (6 channels)", type: "system" },
     ],
   },
   {
@@ -75,8 +81,8 @@ const brands: Brand[] = [
     status: "Bounced", lastContact: "2 weeks ago", dealValue: "—", nextAction: "Find new contact",
     contact: { name: "Chris D.", email: "chris@manscaped.com", title: "Marketing Coordinator", confidence: 45 },
     timeline: [
-      { date: "2 weeks ago", event: "Email bounced — invalid address" },
-      { date: "3 weeks ago", event: "Outreach email sent" },
+      { date: "2 weeks ago", event: "Email bounced — invalid address", type: "bounce" },
+      { date: "3 weeks ago", event: "Outreach email sent", type: "action" },
     ],
   },
   {
@@ -84,9 +90,9 @@ const brands: Brand[] = [
     status: "In Negotiation", lastContact: "1 day ago", dealValue: "$2,500", nextAction: "Send contract",
     contact: { name: "Tyler R.", email: "tyler@ghostenergy.com", title: "Brand Partnerships", confidence: 90 },
     timeline: [
-      { date: "1 day ago", event: "Rate card discussed — $2,500 for integration" },
-      { date: "4 days ago", event: "Reply received — interested in integration" },
-      { date: "1 week ago", event: "Outreach email sent" },
+      { date: "1 day ago", event: "Rate card discussed — $2,500 for integration", type: "positive" },
+      { date: "4 days ago", event: "Reply received — interested in integration", type: "positive" },
+      { date: "1 week ago", event: "Outreach email sent", type: "action" },
     ],
   },
   {
@@ -94,10 +100,10 @@ const brands: Brand[] = [
     status: "Closed", lastContact: "1 Mar 2026", dealValue: "$1,800", nextAction: "Re-contact Oct",
     contact: { name: "Emma W.", email: "emma@squarespace.com", title: "Influencer Marketing Lead", confidence: 95 },
     timeline: [
-      { date: "1 Mar 2026", event: "Deal closed — $1,800 dedicated video" },
-      { date: "15 Feb 2026", event: "Contract signed" },
-      { date: "10 Feb 2026", event: "Terms agreed" },
-      { date: "1 Feb 2026", event: "Initial outreach sent" },
+      { date: "1 Mar 2026", event: "Deal closed — $1,800 dedicated video", type: "positive" },
+      { date: "15 Feb 2026", event: "Contract signed", type: "positive" },
+      { date: "10 Feb 2026", event: "Terms agreed", type: "action" },
+      { date: "1 Feb 2026", event: "Initial outreach sent", type: "action" },
     ],
   },
   {
@@ -105,7 +111,7 @@ const brands: Brand[] = [
     status: "Bounced", lastContact: "3 weeks ago", dealValue: "—", nextAction: "Skip",
     contact: { name: "David M.", email: "david@betmgm.com", title: "Digital Marketing", confidence: 38 },
     timeline: [
-      { date: "3 weeks ago", event: "Email bounced — domain not accepting mail" },
+      { date: "3 weeks ago", event: "Email bounced — domain not accepting mail", type: "bounce" },
     ],
   },
   {
@@ -113,8 +119,8 @@ const brands: Brand[] = [
     status: "Replied", lastContact: "1 week ago", dealValue: "—", nextAction: "Send media kit",
     contact: { name: "Mike J.", email: "mikej@gatorade.com", title: "Sponsorship Manager", confidence: 74 },
     timeline: [
-      { date: "1 week ago", event: "Reply received — requesting media kit" },
-      { date: "2 weeks ago", event: "Outreach email sent" },
+      { date: "1 week ago", event: "Reply received — requesting media kit", type: "positive" },
+      { date: "2 weeks ago", event: "Outreach email sent", type: "action" },
     ],
   },
   {
@@ -122,7 +128,7 @@ const brands: Brand[] = [
     status: "Prospecting", lastContact: "—", dealValue: "—", nextAction: "Draft email",
     contact: { name: "Lisa P.", email: "lisap@audible.com", title: "Creator Relations", confidence: 69 },
     timeline: [
-      { date: "3 days ago", event: "Brand detected in scan (4 channels)" },
+      { date: "3 days ago", event: "Brand detected in scan (4 channels)", type: "system" },
     ],
   },
 ];
@@ -137,8 +143,32 @@ const statusConfig: Record<BrandStatus, { color: string; emoji: string }> = {
   Skipped: { color: "bg-gray-100 text-gray-700 border-gray-200", emoji: "⏭️" },
 };
 
+const timelineDotColor: Record<string, string> = {
+  action: "bg-primary",
+  positive: "bg-green-500",
+  bounce: "bg-red-500",
+  system: "bg-gray-400",
+};
+
 const affinityColor = (v: number) =>
   v >= 80 ? "text-green-600" : v >= 60 ? "text-amber-600" : "text-red-500";
+
+const confidenceColor = (v: number) =>
+  v >= 80 ? "[&>div]:bg-green-500" : v >= 60 ? "[&>div]:bg-amber-500" : "[&>div]:bg-red-500";
+
+function CopyEmailButton({ email }: { email: string }) {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(email);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+  return (
+    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={handleCopy}>
+      {copied ? <Check className="h-3 w-3 text-green-600" /> : <Copy className="h-3 w-3" />}
+    </Button>
+  );
+}
 
 export default function Brands() {
   const [search, setSearch] = useState("");
@@ -305,12 +335,20 @@ export default function Brands() {
                 <Card>
                   <CardContent className="p-4 space-y-2 text-sm">
                     <div className="flex justify-between"><span className="text-muted-foreground">Name</span><span className="font-medium">{selectedBrand.contact.name}</span></div>
-                    <div className="flex justify-between"><span className="text-muted-foreground">Email</span><span className="font-medium">{selectedBrand.contact.email}</span></div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-muted-foreground">Email</span>
+                      <div className="flex items-center gap-1">
+                        <span className="font-medium">{selectedBrand.contact.email}</span>
+                        <CopyEmailButton email={selectedBrand.contact.email} />
+                      </div>
+                    </div>
                     <div className="flex justify-between"><span className="text-muted-foreground">Title</span><span className="font-medium">{selectedBrand.contact.title}</span></div>
-                    <div className="flex justify-between"><span className="text-muted-foreground">Confidence</span>
-                      <Badge variant="outline" className={selectedBrand.contact.confidence >= 80 ? "bg-green-50 text-green-700 border-green-200" : "bg-amber-50 text-amber-700 border-amber-200"}>
-                        {selectedBrand.contact.confidence}% — Hunter
-                      </Badge>
+                    <div className="space-y-1.5">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Confidence</span>
+                        <span className="font-medium">{selectedBrand.contact.confidence}% — Hunter</span>
+                      </div>
+                      <Progress value={selectedBrand.contact.confidence} className={`h-1.5 ${confidenceColor(selectedBrand.contact.confidence)}`} />
                     </div>
                   </CardContent>
                 </Card>
@@ -319,10 +357,10 @@ export default function Brands() {
               {/* Timeline */}
               <div className="space-y-3">
                 <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Timeline</h3>
-                <div className="relative space-y-4 pl-6 before:absolute before:left-[9px] before:top-2 before:bottom-2 before:w-px before:bg-border">
+                <div className="relative space-y-4 pl-6 before:absolute before:left-[7px] before:top-2 before:bottom-2 before:w-px before:bg-border">
                   {selectedBrand.timeline.map((entry, i) => (
                     <div key={i} className="relative">
-                      <div className="absolute -left-6 top-1.5 h-2 w-2 rounded-full bg-primary" />
+                      <div className={`absolute -left-6 top-1.5 h-3 w-3 rounded-full border-2 border-background ${timelineDotColor[entry.type]}`} />
                       <p className="text-xs font-medium text-muted-foreground">{entry.date}</p>
                       <p className="text-sm">{entry.event}</p>
                     </div>
@@ -361,7 +399,12 @@ export default function Brands() {
                     <Select defaultValue={selectedBrand.status}>
                       <SelectTrigger><SelectValue /></SelectTrigger>
                       <SelectContent>
-                        {Object.keys(statusConfig).map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                        <SelectItem value="Prospecting">🔵 Prospecting</SelectItem>
+                        <SelectItem value="Contacted">🟡 Contacted</SelectItem>
+                        <SelectItem value="Replied">🟢 Replied</SelectItem>
+                        <SelectItem value="In Negotiation">🟣 In Negotiation</SelectItem>
+                        <SelectItem value="Closed">✅ Closed</SelectItem>
+                        <SelectItem value="Bounced">🔴 Bounced</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -371,8 +414,7 @@ export default function Brands() {
               {/* Actions */}
               <div className="flex flex-col gap-2 pt-2">
                 <Button className="w-full gap-2"><Mail className="h-4 w-4" /> Draft New Email</Button>
-                <Button variant="outline" className="w-full gap-2 border-green-200 text-green-700 hover:bg-green-50"><ShieldCheck className="h-4 w-4" /> Mark Closed</Button>
-                <Button variant="ghost" className="w-full gap-2 text-muted-foreground"><SkipForward className="h-4 w-4" /> Skip Brand</Button>
+                <Button variant="ghost" className="w-full gap-2 text-red-500/70 hover:text-red-600"><SkipForward className="h-4 w-4" /> Skip Brand</Button>
               </div>
             </div>
           )}

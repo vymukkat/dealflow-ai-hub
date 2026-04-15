@@ -1,8 +1,10 @@
-import { Mail } from "lucide-react";
+import { useState } from "react";
+import { Mail, Copy, Check } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const stats = [
@@ -55,6 +57,32 @@ function statusColor(s: string) {
   return "bg-amber-500 hover:bg-amber-500 text-white";
 }
 
+function CopyButton({ text, label }: { text: string; label: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <Button variant="ghost" size="sm" className="h-7 gap-1 text-xs" onClick={handleCopy}>
+      {copied ? (
+        <>
+          <Check className="h-3 w-3 text-green-600" />
+          <span className="text-green-600">Copied!</span>
+        </>
+      ) : (
+        <>
+          <Copy className="h-3 w-3" />
+          <span>{label}</span>
+        </>
+      )}
+    </Button>
+  );
+}
+
 export default function Drafts() {
   return (
     <div className="space-y-6 max-w-5xl">
@@ -103,14 +131,21 @@ export default function Drafts() {
             <AccordionContent>
               {d.body ? (
                 <div className="space-y-4 pl-2">
-                  <div>
-                    <p className="text-[10px] font-semibold uppercase text-muted-foreground mb-1">Subject</p>
-                    <p className="text-sm font-medium">{d.subject}</p>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-[10px] font-semibold uppercase text-muted-foreground mb-1">Subject</p>
+                      <p className="text-sm font-medium">{d.subject}</p>
+                    </div>
+                    <CopyButton text={d.subject} label="Copy Subject" />
                   </div>
-                  <div>
-                    <p className="text-[10px] font-semibold uppercase text-muted-foreground mb-1">Body</p>
+                  <div className="relative">
+                    <div className="flex items-center justify-between mb-1">
+                      <p className="text-[10px] font-semibold uppercase text-muted-foreground">Body</p>
+                      <CopyButton text={d.body} label="Copy Email" />
+                    </div>
                     <pre className="text-sm whitespace-pre-wrap font-sans leading-relaxed bg-muted/50 rounded-lg p-4">{d.body}</pre>
                   </div>
+                  <Separator />
                   <div>
                     <p className="text-[10px] font-semibold uppercase text-muted-foreground mb-1">Subject Variants</p>
                     <div className="flex flex-wrap gap-2">
