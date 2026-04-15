@@ -1,7 +1,7 @@
 import { useLocation, Link } from "react-router-dom";
 import {
   LayoutDashboard, Radar, Bug, Mail, Kanban, Send,
-  User, Users, Settings, Zap, BarChart3, Building2, Sparkles,
+  User, Users, Settings, Zap, BarChart3, Building2, Sparkles, DollarSign,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarFooter, SidebarHeader,
@@ -15,7 +15,6 @@ const navSections = [
     label: "OVERVIEW",
     items: [
       { title: "Dashboard", url: "/", icon: LayoutDashboard },
-      { title: "Analytics", url: "/analytics", icon: BarChart3 },
     ],
   },
   {
@@ -29,10 +28,11 @@ const navSections = [
   {
     label: "OUTREACH",
     items: [
-      { title: "Email Drafts", url: "/drafts", icon: Mail },
+      { title: "Email Drafts", url: "/drafts", icon: Mail, dotBadge: "3" },
       { title: "Pipeline", url: "/pipeline", icon: Kanban },
       { title: "Sent", url: "/sent", icon: Send },
-      { title: "Brands", url: "/brands", icon: Building2 },
+      { title: "Revenue", url: "/revenue", icon: DollarSign },
+      { title: "Brand CRM", url: "/brands", icon: Building2 },
     ],
   },
   {
@@ -40,6 +40,7 @@ const navSections = [
     items: [
       { title: "Media Kit", url: "/media-kit", icon: User },
       { title: "Audience", url: "/audience", icon: Users },
+      { title: "Analytics", url: "/analytics", icon: BarChart3 },
     ],
   },
   {
@@ -101,6 +102,11 @@ export function AppSidebar() {
                             {item.badge}
                           </Badge>
                         )}
+                        {(item as any).dotBadge && (
+                          <span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-amber-500 text-[10px] font-medium text-white">
+                            {(item as any).dotBadge}
+                          </span>
+                        )}
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -112,7 +118,7 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="p-4 pt-2">
-        <p className="text-xs text-muted-foreground text-center">Dealflow AI v0.1</p>
+        <p className="text-xs text-muted-foreground text-center">Dealflow AI v0.1 · Beta</p>
       </SidebarFooter>
     </Sidebar>
   );
