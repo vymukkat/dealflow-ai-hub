@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 
 /* ------------------------------------------------------------------ */
-/*  Scan animation data                                                */
+/*  Scan animation                                                     */
 /* ------------------------------------------------------------------ */
 const scanChannels = [
   "HockeyBuzz", "The Hockey News", "Steve Dangle Podcast",
@@ -25,39 +25,30 @@ function ScanStatus() {
 
   useEffect(() => {
     if (!scanning) return;
-
-    // Progress bar
     const progInterval = setInterval(() => {
       setProgress((p) => {
         if (p >= 100) { clearInterval(progInterval); return 100; }
         return Math.min(p + 100 / (8000 / 100), 100);
       });
     }, 100);
-
-    // Channel names appearing
     const channelInterval = setInterval(() => {
       setVisibleChannels((v) => {
         if (v >= scanChannels.length) { clearInterval(channelInterval); return v; }
         return v + 1;
       });
     }, 600);
-
-    // Channel counter
     const countInterval = setInterval(() => {
       setChannelCount((c) => {
         if (c >= 60) { clearInterval(countInterval); return 60; }
         return c + 5;
       });
     }, 650);
-
-    // End scanning
     const timer = setTimeout(() => {
       setScanning(false);
       setProgress(100);
       setChannelCount(60);
       setVisibleChannels(scanChannels.length);
     }, 8000);
-
     return () => {
       clearInterval(progInterval);
       clearInterval(channelInterval);
@@ -71,13 +62,11 @@ function ScanStatus() {
       <Card>
         <CardContent className="p-5 space-y-3">
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-100">
-              <CheckCircle2 className="h-5 w-5 text-green-600" />
-            </div>
-            <span className="font-semibold text-green-700">Scan complete</span>
+            <CheckCircle2 className="h-4 w-4 text-green-600" />
+            <span className="text-sm font-medium text-green-600">Scan complete</span>
           </div>
           <p className="text-sm text-muted-foreground">60 channels scanned · 4 podcasts · 18 brands found</p>
-          <Button onClick={() => { setScanning(true); setProgress(0); setVisibleChannels(0); setChannelCount(0); }}>
+          <Button size="sm" onClick={() => { setScanning(true); setProgress(0); setVisibleChannels(0); setChannelCount(0); }}>
             <Zap className="h-4 w-4" /> Run New Scan
           </Button>
         </CardContent>
@@ -89,13 +78,13 @@ function ScanStatus() {
     <Card>
       <CardContent className="p-5 space-y-3">
         <div className="space-y-1">
-          <div className="flex items-center justify-between text-xs">
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
             <span>Scanning...</span>
-            <span>{Math.round(progress)}%</span>
+            <span className="tabular-nums">{Math.round(progress)}%</span>
           </div>
-          <Progress value={progress} className="h-2" />
+          <Progress value={progress} className="h-1.5" />
         </div>
-        <p className="text-sm font-medium">{channelCount} / 60 channels scanned</p>
+        <p className="text-sm font-medium text-foreground tabular-nums">{channelCount} / 60 channels scanned</p>
         <div className="space-y-1 font-mono text-xs">
           {scanChannels.slice(0, visibleChannels).map((ch, i) => {
             const isLatest = i === visibleChannels - 1 && visibleChannels < scanChannels.length;
@@ -104,7 +93,7 @@ function ScanStatus() {
                 {isLatest ? (
                   <Loader2 className="h-3 w-3 animate-spin text-muted-foreground" />
                 ) : (
-                  <CheckCircle2 className="h-3 w-3 text-green-500" />
+                  <CheckCircle2 className="h-3 w-3 text-green-600" />
                 )}
                 <span className={isLatest ? "text-foreground" : "text-muted-foreground"}>
                   Scanning {ch}...
@@ -148,45 +137,42 @@ const tier3 = [
 
 const queries = ["hockey", "hockey review", "hockey podcast", "hockey tips", "hockey explained", "hockey news"];
 
-function affinityColor(val: number) {
-  if (val >= 90) return "bg-green-500 hover:bg-green-500 text-white";
-  if (val >= 70) return "bg-primary hover:bg-primary text-primary-foreground";
-  return "bg-amber-500 hover:bg-amber-500 text-white";
+function affinityText(val: number) {
+  if (val >= 80) return "text-green-600";
+  if (val >= 60) return "text-amber-600";
+  return "text-muted-foreground";
 }
 
 /* ------------------------------------------------------------------ */
-/*  Tier section component                                             */
+/*  Tier section                                                       */
 /* ------------------------------------------------------------------ */
 interface TierSectionProps {
   title: string;
   description: string;
-  borderColor: string;
   count: number;
   children: React.ReactNode;
   selected: number;
 }
 
-function TierSection({ title, description, borderColor, count, children, selected }: TierSectionProps) {
+function TierSection({ title, description, count, children, selected }: TierSectionProps) {
   return (
-    <Card className={`border-l-4 ${borderColor}`}>
-      <CardContent className="p-5 space-y-4">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <h3 className="font-bold text-base">{title}</h3>
-            <Badge variant="secondary" className="text-xs">{count} brands</Badge>
-          </div>
-          <p className="text-sm text-muted-foreground">{description}</p>
+    <div className="border-t border-border pt-6">
+      <div className="mb-4">
+        <div className="flex items-center gap-2 mb-1">
+          <h3 className="text-sm font-semibold text-foreground">{title}</h3>
+          <Badge variant="secondary" className="text-xs">{count} brands</Badge>
         </div>
-        {children}
-        <div className="flex items-center justify-between pt-2">
-          <span className="text-sm text-muted-foreground">{selected} selected</span>
-          <div className="flex gap-2">
-            <Button size="sm" disabled={selected === 0}>Draft Selected</Button>
-            <Button size="sm" variant="outline">Automate Tier</Button>
-          </div>
+        <p className="text-sm text-muted-foreground">{description}</p>
+      </div>
+      {children}
+      <div className="flex items-center justify-between pt-3">
+        <span className="text-xs text-muted-foreground">{selected} selected</span>
+        <div className="flex gap-2">
+          <Button size="sm" disabled={selected === 0}>Draft Selected</Button>
+          <Button size="sm" variant="outline">Automate Tier</Button>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
 
@@ -210,39 +196,38 @@ export default function BrandRadar() {
     <div className="space-y-6 max-w-7xl">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Brand Radar</h1>
-          <p className="text-muted-foreground">Automated sponsor discovery for your niche</p>
+          <h1 className="text-xl font-semibold text-foreground">Brand Radar</h1>
+          <p className="text-sm text-muted-foreground">Automated sponsor discovery for your niche</p>
         </div>
       </div>
 
       <ScanStatus />
 
       <div>
-        <p className="text-sm font-semibold mb-2">Search Queries Used ({queries.length})</p>
+        <p className="text-sm font-medium text-foreground mb-2">Search Queries Used ({queries.length})</p>
         <div className="flex flex-wrap gap-2">
           {queries.map((q) => (
-            <Badge key={q} className="bg-purple-100 text-purple-700 hover:bg-purple-100">{q}</Badge>
+            <Badge key={q} variant="secondary" className="bg-secondary text-muted-foreground border border-border">{q}</Badge>
           ))}
         </div>
       </div>
 
       {/* Action bar */}
-      <div className="flex items-center justify-between rounded-lg border bg-muted/30 px-4 py-3">
-        <p className="text-sm font-medium">{totalBrands} brands found across 3 tiers</p>
-        <Button>Automate All</Button>
+      <div className="flex items-center justify-between rounded-md border border-border bg-card px-4 py-3">
+        <p className="text-sm font-medium text-foreground">{totalBrands} brands found across 3 tiers</p>
+        <Button size="sm">Automate All</Button>
       </div>
 
       {/* TIER 1 */}
       <TierSection
         title="Tier 1 — Proven Sponsors"
         description="Brands actively sponsoring channels in your niche"
-        borderColor="border-l-green-500"
         count={tier1.length}
         selected={sel1.size}
       >
         <Table>
           <TableHeader>
-            <TableRow>
+            <TableRow className="hover:bg-transparent">
               <TableHead className="w-10"></TableHead>
               <TableHead>Brand</TableHead>
               <TableHead>Category</TableHead>
@@ -253,15 +238,15 @@ export default function BrandRadar() {
           </TableHeader>
           <TableBody>
             {tier1.map((b) => (
-              <TableRow key={b.name}>
+              <TableRow key={b.name} className="hover:bg-secondary/50">
                 <TableCell>
                   <Checkbox checked={sel1.has(b.name)} onCheckedChange={() => toggle(sel1, setSel1, b.name)} />
                 </TableCell>
-                <TableCell className="font-semibold">{b.name}</TableCell>
-                <TableCell className="text-muted-foreground">{b.category}</TableCell>
-                <TableCell>×{b.times}</TableCell>
+                <TableCell className="font-medium text-foreground">{b.name}</TableCell>
+                <TableCell><Badge variant="secondary" className="bg-secondary text-muted-foreground border border-border">{b.category}</Badge></TableCell>
+                <TableCell className="tabular-nums">×{b.times}</TableCell>
                 <TableCell className="text-muted-foreground">{b.sources}</TableCell>
-                <TableCell><Badge className={affinityColor(b.affinity)}>{b.affinity}%</Badge></TableCell>
+                <TableCell className={`font-medium tabular-nums ${affinityText(b.affinity)}`}>{b.affinity}%</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -272,13 +257,12 @@ export default function BrandRadar() {
       <TierSection
         title="Tier 2 — Buying Signals"
         description="Brands hiring for influencer roles or recently funded — actively in buying mode"
-        borderColor="border-l-amber-500"
         count={tier2.length}
         selected={sel2.size}
       >
         <Table>
           <TableHeader>
-            <TableRow>
+            <TableRow className="hover:bg-transparent">
               <TableHead className="w-10"></TableHead>
               <TableHead>Brand</TableHead>
               <TableHead>Category</TableHead>
@@ -288,15 +272,15 @@ export default function BrandRadar() {
           </TableHeader>
           <TableBody>
             {tier2.map((b) => (
-              <TableRow key={b.name}>
+              <TableRow key={b.name} className="hover:bg-secondary/50">
                 <TableCell>
                   <Checkbox checked={sel2.has(b.name)} onCheckedChange={() => toggle(sel2, setSel2, b.name)} />
                 </TableCell>
-                <TableCell className="font-semibold">{b.name}</TableCell>
-                <TableCell className="text-muted-foreground">{b.category}</TableCell>
-                <TableCell className="text-sm">{b.signal}</TableCell>
+                <TableCell className="font-medium text-foreground">{b.name}</TableCell>
+                <TableCell><Badge variant="secondary" className="bg-secondary text-muted-foreground border border-border">{b.category}</Badge></TableCell>
+                <TableCell className="text-sm text-muted-foreground">{b.signal}</TableCell>
                 <TableCell>
-                  <Badge variant="outline" className={b.confidence === "High" ? "bg-green-50 text-green-700 border-green-200" : "bg-amber-50 text-amber-700 border-amber-200"}>
+                  <Badge variant="outline" className={b.confidence === "High" ? "bg-green-50 text-green-600 border-green-200" : "bg-amber-50 text-amber-600 border-amber-200"}>
                     {b.confidence}
                   </Badge>
                 </TableCell>
@@ -310,13 +294,12 @@ export default function BrandRadar() {
       <TierSection
         title="Tier 3 — Demographic Matches"
         description="Brands targeting 18–34 male sports fans — your exact audience profile"
-        borderColor="border-l-primary"
         count={tier3.length}
         selected={sel3.size}
       >
         <Table>
           <TableHeader>
-            <TableRow>
+            <TableRow className="hover:bg-transparent">
               <TableHead className="w-10"></TableHead>
               <TableHead>Brand</TableHead>
               <TableHead>Category</TableHead>
@@ -326,14 +309,14 @@ export default function BrandRadar() {
           </TableHeader>
           <TableBody>
             {tier3.map((b) => (
-              <TableRow key={b.name}>
+              <TableRow key={b.name} className="hover:bg-secondary/50">
                 <TableCell>
                   <Checkbox checked={sel3.has(b.name)} onCheckedChange={() => toggle(sel3, setSel3, b.name)} />
                 </TableCell>
-                <TableCell className="font-semibold">{b.name}</TableCell>
-                <TableCell className="text-muted-foreground">{b.category}</TableCell>
-                <TableCell className="text-sm">{b.why}</TableCell>
-                <TableCell><Badge className={affinityColor(b.affinity)}>{b.affinity}%</Badge></TableCell>
+                <TableCell className="font-medium text-foreground">{b.name}</TableCell>
+                <TableCell><Badge variant="secondary" className="bg-secondary text-muted-foreground border border-border">{b.category}</Badge></TableCell>
+                <TableCell className="text-sm text-muted-foreground">{b.why}</TableCell>
+                <TableCell className={`font-medium tabular-nums ${affinityText(b.affinity)}`}>{b.affinity}%</TableCell>
               </TableRow>
             ))}
           </TableBody>

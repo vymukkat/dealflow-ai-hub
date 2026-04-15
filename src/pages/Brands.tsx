@@ -133,28 +133,28 @@ const brands: Brand[] = [
   },
 ];
 
-const statusConfig: Record<BrandStatus, { color: string; emoji: string }> = {
-  Prospecting: { color: "bg-blue-100 text-blue-700 border-blue-200", emoji: "🔵" },
-  Contacted: { color: "bg-amber-100 text-amber-700 border-amber-200", emoji: "🟡" },
-  Replied: { color: "bg-cyan-100 text-cyan-700 border-cyan-200", emoji: "🟢" },
-  "In Negotiation": { color: "bg-purple-100 text-purple-700 border-purple-200", emoji: "🟢" },
-  Closed: { color: "bg-green-100 text-green-700 border-green-200", emoji: "✅" },
-  Bounced: { color: "bg-red-100 text-red-700 border-red-200", emoji: "🔴" },
-  Skipped: { color: "bg-gray-100 text-gray-700 border-gray-200", emoji: "⏭️" },
+const statusConfig: Record<BrandStatus, { color: string }> = {
+  Prospecting: { color: "bg-blue-50 text-blue-600 border-blue-200" },
+  Contacted: { color: "bg-amber-50 text-amber-600 border-amber-200" },
+  Replied: { color: "bg-green-50 text-green-600 border-green-200" },
+  "In Negotiation": { color: "bg-blue-50 text-blue-600 border-blue-200" },
+  Closed: { color: "bg-green-50 text-green-600 border-green-200" },
+  Bounced: { color: "bg-red-50 text-red-600 border-red-200" },
+  Skipped: { color: "bg-secondary text-muted-foreground border-border" },
 };
 
 const timelineDotColor: Record<string, string> = {
   action: "bg-primary",
-  positive: "bg-green-500",
-  bounce: "bg-red-500",
-  system: "bg-gray-400",
+  positive: "bg-green-600",
+  bounce: "bg-red-600",
+  system: "bg-muted-foreground/40",
 };
 
 const affinityColor = (v: number) =>
-  v >= 80 ? "text-green-600" : v >= 60 ? "text-amber-600" : "text-red-500";
+  v >= 80 ? "text-green-600" : v >= 60 ? "text-amber-600" : "text-muted-foreground";
 
 const confidenceColor = (v: number) =>
-  v >= 80 ? "[&>div]:bg-green-500" : v >= 60 ? "[&>div]:bg-amber-500" : "[&>div]:bg-red-500";
+  v >= 80 ? "[&>div]:bg-green-600" : v >= 60 ? "[&>div]:bg-amber-500" : "[&>div]:bg-red-600";
 
 function CopyEmailButton({ email }: { email: string }) {
   const [copied, setCopied] = useState(false);
@@ -195,54 +195,46 @@ export default function Brands() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Brand CRM</h1>
-        <p className="text-muted-foreground">Every brand relationship in one place</p>
+        <h1 className="text-xl font-semibold text-foreground tracking-tight">Brand CRM</h1>
+        <p className="text-sm text-muted-foreground">Every brand relationship in one place</p>
       </div>
 
       {/* Summary Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card>
-          <CardContent className="p-4 flex items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-50">
-              <Building2 className="h-5 w-5 text-blue-600" />
-            </div>
+          <CardContent className="p-4 flex items-start justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">Total Brands</p>
-              <p className="text-xl font-bold">{brands.length}</p>
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Total Brands</p>
+              <p className="text-2xl font-semibold text-foreground tabular-nums">{brands.length}</p>
             </div>
+            <Building2 className="h-4 w-4 text-muted-foreground" />
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4 flex items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-purple-50">
-              <Users className="h-5 w-5 text-purple-600" />
-            </div>
+          <CardContent className="p-4 flex items-start justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">In Progress</p>
-              <p className="text-xl font-bold">{inProgress}</p>
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">In Progress</p>
+              <p className="text-2xl font-semibold text-foreground tabular-nums">{inProgress}</p>
             </div>
+            <Users className="h-4 w-4 text-muted-foreground" />
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4 flex items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-green-50">
-              <CheckCircle2 className="h-5 w-5 text-green-600" />
-            </div>
+          <CardContent className="p-4 flex items-start justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">Closed This Month</p>
-              <p className="text-xl font-bold">{closedMonth}</p>
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Closed This Month</p>
+              <p className="text-2xl font-semibold text-foreground tabular-nums">{closedMonth}</p>
             </div>
+            <CheckCircle2 className="h-4 w-4 text-muted-foreground" />
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4 flex items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-orange-50">
-              <DollarSign className="h-5 w-5 text-orange-600" />
-            </div>
+          <CardContent className="p-4 flex items-start justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">Pipeline Value</p>
-              <p className="text-xl font-bold">${pipelineValue.toLocaleString()}</p>
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Pipeline Value</p>
+              <p className="text-2xl font-semibold text-foreground tabular-nums">${pipelineValue.toLocaleString()}</p>
             </div>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardContent>
         </Card>
       </div>
@@ -273,7 +265,7 @@ export default function Brands() {
       <Card>
         <Table>
           <TableHeader>
-            <TableRow>
+            <TableRow className="hover:bg-transparent">
               <TableHead>Brand</TableHead>
               <TableHead>Category</TableHead>
               <TableHead>Affinity</TableHead>
@@ -285,19 +277,19 @@ export default function Brands() {
           </TableHeader>
           <TableBody>
             {filtered.map((brand) => (
-              <TableRow key={brand.name} className="cursor-pointer" onClick={() => setSelectedBrand(brand)}>
-                <TableCell className="font-medium">{brand.name}</TableCell>
-                <TableCell className="text-muted-foreground text-sm">{brand.category}</TableCell>
+              <TableRow key={brand.name} className="cursor-pointer hover:bg-secondary/50" onClick={() => setSelectedBrand(brand)}>
+                <TableCell className="font-medium text-foreground">{brand.name}</TableCell>
+                <TableCell><Badge variant="secondary" className="bg-secondary text-muted-foreground border border-border">{brand.category}</Badge></TableCell>
                 <TableCell>
-                  <span className={`font-semibold ${affinityColor(brand.affinity)}`}>{brand.affinity}%</span>
+                  <span className={`font-medium tabular-nums ${affinityColor(brand.affinity)}`}>{brand.affinity}%</span>
                 </TableCell>
                 <TableCell>
                   <Badge variant="outline" className={statusConfig[brand.status].color}>
-                    {statusConfig[brand.status].emoji} {brand.status}
+                    {brand.status}
                   </Badge>
                 </TableCell>
                 <TableCell className="hidden md:table-cell text-sm text-muted-foreground">{brand.lastContact}</TableCell>
-                <TableCell className="hidden md:table-cell font-medium">{brand.dealValue}</TableCell>
+                <TableCell className="hidden md:table-cell font-medium text-foreground tabular-nums">{brand.dealValue}</TableCell>
                 <TableCell className="hidden lg:table-cell text-sm text-muted-foreground">{brand.nextAction}</TableCell>
               </TableRow>
             ))}
@@ -314,7 +306,7 @@ export default function Brands() {
           {selectedBrand && (
             <div className="space-y-6">
               <SheetHeader>
-                <SheetTitle className="text-xl">{selectedBrand.name}</SheetTitle>
+                <SheetTitle className="text-lg font-semibold">{selectedBrand.name}</SheetTitle>
                 <SheetDescription>
                   {selectedBrand.domain} · {selectedBrand.category}
                 </SheetDescription>
@@ -323,32 +315,32 @@ export default function Brands() {
               {/* Affinity */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Affinity Score</span>
-                  <span className={`font-bold ${affinityColor(selectedBrand.affinity)}`}>{selectedBrand.affinity}%</span>
+                  <span className="text-sm font-medium text-foreground">Affinity Score</span>
+                  <span className={`font-semibold tabular-nums ${affinityColor(selectedBrand.affinity)}`}>{selectedBrand.affinity}%</span>
                 </div>
-                <Progress value={selectedBrand.affinity} className="h-2" />
+                <Progress value={selectedBrand.affinity} className="h-1.5" />
               </div>
 
               {/* Contact */}
               <div className="space-y-3">
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Contact</h3>
+                <h3 className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Contact</h3>
                 <Card>
                   <CardContent className="p-4 space-y-2 text-sm">
-                    <div className="flex justify-between"><span className="text-muted-foreground">Name</span><span className="font-medium">{selectedBrand.contact.name}</span></div>
+                    <div className="flex justify-between"><span className="text-muted-foreground">Name</span><span className="font-medium text-foreground">{selectedBrand.contact.name}</span></div>
                     <div className="flex items-center justify-between">
                       <span className="text-muted-foreground">Email</span>
                       <div className="flex items-center gap-1">
-                        <span className="font-medium">{selectedBrand.contact.email}</span>
+                        <span className="font-medium text-foreground">{selectedBrand.contact.email}</span>
                         <CopyEmailButton email={selectedBrand.contact.email} />
                       </div>
                     </div>
-                    <div className="flex justify-between"><span className="text-muted-foreground">Title</span><span className="font-medium">{selectedBrand.contact.title}</span></div>
+                    <div className="flex justify-between"><span className="text-muted-foreground">Title</span><span className="font-medium text-foreground">{selectedBrand.contact.title}</span></div>
                     <div className="space-y-1.5">
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Confidence</span>
-                        <span className="font-medium">{selectedBrand.contact.confidence}% — Hunter</span>
+                        <span className="font-medium text-foreground tabular-nums">{selectedBrand.contact.confidence}% — Hunter</span>
                       </div>
-                      <Progress value={selectedBrand.contact.confidence} className={`h-1.5 ${confidenceColor(selectedBrand.contact.confidence)}`} />
+                      <Progress value={selectedBrand.contact.confidence} className={`h-1 ${confidenceColor(selectedBrand.contact.confidence)}`} />
                     </div>
                   </CardContent>
                 </Card>
@@ -356,13 +348,13 @@ export default function Brands() {
 
               {/* Timeline */}
               <div className="space-y-3">
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Timeline</h3>
+                <h3 className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Timeline</h3>
                 <div className="relative space-y-4 pl-6 before:absolute before:left-[7px] before:top-2 before:bottom-2 before:w-px before:bg-border">
                   {selectedBrand.timeline.map((entry, i) => (
                     <div key={i} className="relative">
-                      <div className={`absolute -left-6 top-1.5 h-3 w-3 rounded-full border-2 border-background ${timelineDotColor[entry.type]}`} />
+                      <div className={`absolute -left-6 top-1.5 h-3 w-3 rounded-full border-2 border-card ${timelineDotColor[entry.type]}`} />
                       <p className="text-xs font-medium text-muted-foreground">{entry.date}</p>
-                      <p className="text-sm">{entry.event}</p>
+                      <p className="text-sm text-foreground">{entry.event}</p>
                     </div>
                   ))}
                 </div>
@@ -370,13 +362,13 @@ export default function Brands() {
 
               {/* Notes */}
               <div className="space-y-3">
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Notes</h3>
+                <h3 className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Notes</h3>
                 <Textarea placeholder="Add a note..." className="min-h-[80px]" />
               </div>
 
               {/* Deal */}
               <div className="space-y-3">
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Deal</h3>
+                <h3 className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Deal</h3>
                 <div className="grid grid-cols-1 gap-3">
                   <div className="space-y-1.5">
                     <Label className="text-xs">Value</Label>
@@ -399,12 +391,12 @@ export default function Brands() {
                     <Select defaultValue={selectedBrand.status}>
                       <SelectTrigger><SelectValue /></SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Prospecting">🔵 Prospecting</SelectItem>
-                        <SelectItem value="Contacted">🟡 Contacted</SelectItem>
-                        <SelectItem value="Replied">🟢 Replied</SelectItem>
-                        <SelectItem value="In Negotiation">🟣 In Negotiation</SelectItem>
-                        <SelectItem value="Closed">✅ Closed</SelectItem>
-                        <SelectItem value="Bounced">🔴 Bounced</SelectItem>
+                        <SelectItem value="Prospecting">Prospecting</SelectItem>
+                        <SelectItem value="Contacted">Contacted</SelectItem>
+                        <SelectItem value="Replied">Replied</SelectItem>
+                        <SelectItem value="In Negotiation">In Negotiation</SelectItem>
+                        <SelectItem value="Closed">Closed</SelectItem>
+                        <SelectItem value="Bounced">Bounced</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -414,7 +406,7 @@ export default function Brands() {
               {/* Actions */}
               <div className="flex flex-col gap-2 pt-2">
                 <Button className="w-full gap-2"><Mail className="h-4 w-4" /> Draft New Email</Button>
-                <Button variant="ghost" className="w-full gap-2 text-red-500/70 hover:text-red-600"><SkipForward className="h-4 w-4" /> Skip Brand</Button>
+                <Button variant="ghost" className="w-full gap-2 text-red-600 hover:text-red-700 hover:bg-red-50"><SkipForward className="h-4 w-4" /> Skip Brand</Button>
               </div>
             </div>
           )}

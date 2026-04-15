@@ -13,7 +13,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 interface StatCallout {
   label: string;
   value: string;
-  color: "green" | "blue" | "amber" | "gray" | "purple";
+  color: "green" | "blue" | "amber" | "gray";
   sub: string;
   arrow?: "up" | "down";
 }
@@ -90,9 +90,9 @@ const seedMessages: ChatMessage[] = [
     id: "4", role: "assistant",
     text: "Based on your audience profile and current scan data, here's your priority order:",
     table: [
-      { rank: "🥇 1", brand: "Spotify", why: "Active hockey partnerships, your demo matches exactly" },
-      { rank: "🥈 2", brand: "AG1", why: "18-34 male skew — highest converting demo for supplements" },
-      { rank: "🥉 3", brand: "NordVPN", why: "Currently in active buying cycle — 6 channels this month" },
+      { rank: "1", brand: "Spotify", why: "Active hockey partnerships, your demo matches exactly" },
+      { rank: "2", brand: "AG1", why: "18-34 male skew — highest converting demo for supplements" },
+      { rank: "3", brand: "NordVPN", why: "Currently in active buying cycle — 6 channels this month" },
       { rank: "4", brand: "DraftKings", why: "Strong fit but high competition — differentiate pitch" },
       { rank: "5", brand: "Manscaped", why: "Lower affinity but easy yes — good for pipeline volume" },
     ],
@@ -129,19 +129,17 @@ const seedMessages: ChatMessage[] = [
 /* ------------------------------------------------------------------ */
 /*  Colour helpers                                                     */
 /* ------------------------------------------------------------------ */
-const statBg: Record<string, string> = {
-  green: "bg-green-50 border-green-200",
-  blue: "bg-blue-50 border-blue-200",
-  amber: "bg-amber-50 border-amber-200",
-  gray: "bg-muted border-border",
-  purple: "bg-purple-50 border-purple-200",
+const statBorder: Record<string, string> = {
+  green: "border-green-200",
+  blue: "border-blue-200",
+  amber: "border-amber-200",
+  gray: "border-border",
 };
 const statText: Record<string, string> = {
-  green: "text-green-700",
-  blue: "text-blue-700",
-  amber: "text-amber-700",
+  green: "text-green-600",
+  blue: "text-blue-600",
+  amber: "text-amber-600",
   gray: "text-muted-foreground",
-  purple: "text-purple-700",
 };
 
 /* ------------------------------------------------------------------ */
@@ -151,13 +149,13 @@ function StatCards({ cards }: { cards: StatCallout[] }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 my-3">
       {cards.map((s) => (
-        <div key={s.label} className={`rounded-lg border p-3 ${statBg[s.color]}`}>
-          <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wide">{s.label}</p>
-          <p className={`text-lg font-bold ${statText[s.color]}`}>
+        <div key={s.label} className={`rounded-md border p-3 bg-card ${statBorder[s.color]}`}>
+          <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">{s.label}</p>
+          <p className={`text-lg font-semibold tabular-nums ${statText[s.color]}`}>
             {s.arrow === "up" && <ArrowUp className="inline h-4 w-4 mr-0.5 -mt-0.5" />}
             {s.value}
           </p>
-          <p className="text-[11px] text-muted-foreground">{s.sub}</p>
+          <p className="text-xs text-muted-foreground">{s.sub}</p>
         </div>
       ))}
     </div>
@@ -166,10 +164,10 @@ function StatCards({ cards }: { cards: StatCallout[] }) {
 
 function PriorityTable({ rows }: { rows: PriorityRow[] }) {
   return (
-    <div className="my-3 rounded-lg border overflow-hidden">
+    <div className="my-3 rounded-md border overflow-hidden">
       <table className="w-full text-sm">
         <thead>
-          <tr className="bg-muted/50 text-left text-xs text-muted-foreground">
+          <tr className="bg-secondary text-left text-xs text-muted-foreground">
             <th className="px-3 py-2 font-medium">Priority</th>
             <th className="px-3 py-2 font-medium">Brand</th>
             <th className="px-3 py-2 font-medium">Why</th>
@@ -177,9 +175,9 @@ function PriorityTable({ rows }: { rows: PriorityRow[] }) {
         </thead>
         <tbody>
           {rows.map((r) => (
-            <tr key={r.brand} className="border-t">
-              <td className="px-3 py-2 font-medium">{r.rank}</td>
-              <td className="px-3 py-2 font-semibold">{r.brand}</td>
+            <tr key={r.brand} className="border-t border-border">
+              <td className="px-3 py-2 font-medium text-foreground tabular-nums">{r.rank}</td>
+              <td className="px-3 py-2 font-medium text-foreground">{r.brand}</td>
               <td className="px-3 py-2 text-muted-foreground">{r.why}</td>
             </tr>
           ))}
@@ -208,10 +206,10 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
     return (
       <div className="flex justify-start mb-4">
         <div className="flex items-start gap-2 max-w-[85%]">
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-purple-100 mt-1">
-            <Sparkles className="h-3.5 w-3.5 text-purple-600" />
+          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-secondary mt-1">
+            <Sparkles className="h-3.5 w-3.5 text-primary" />
           </div>
-          <Card className="border shadow-sm">
+          <Card>
             <CardContent className="p-2"><TypingIndicator /></CardContent>
           </Card>
         </div>
@@ -223,8 +221,8 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
     return (
       <div className="flex justify-end mb-4">
         <div className="max-w-[75%]">
-          <div className="rounded-2xl rounded-br-md bg-primary px-4 py-2.5 text-primary-foreground text-sm">{msg.text}</div>
-          <p className="text-[10px] text-muted-foreground mt-1 text-right">{msg.timestamp}</p>
+          <div className="rounded-lg rounded-br-sm bg-primary px-4 py-2.5 text-primary-foreground text-sm">{msg.text}</div>
+          <p className="text-xs text-muted-foreground mt-1 text-right">{msg.timestamp}</p>
         </div>
       </div>
     );
@@ -233,13 +231,13 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
   return (
     <div className="flex justify-start mb-4">
       <div className="flex items-start gap-2 max-w-[85%]">
-        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-purple-100 mt-1">
-          <Sparkles className="h-3.5 w-3.5 text-purple-600" />
+        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-secondary mt-1">
+          <Sparkles className="h-3.5 w-3.5 text-primary" />
         </div>
         <div>
-          <Card className="border shadow-sm">
+          <Card>
             <CardContent className="p-4 text-sm leading-relaxed">
-              {msg.text && <p>{msg.text}</p>}
+              {msg.text && <p className="text-foreground">{msg.text}</p>}
               {msg.stats && <StatCards cards={msg.stats} />}
               {msg.rateCards && <StatCards cards={msg.rateCards} />}
               {msg.table && <PriorityTable rows={msg.table} />}
@@ -268,7 +266,7 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
               )}
             </CardContent>
           </Card>
-          <p className="text-[10px] text-muted-foreground mt-1">{msg.timestamp}</p>
+          <p className="text-xs text-muted-foreground mt-1">{msg.timestamp}</p>
         </div>
       </div>
     </div>
@@ -276,7 +274,7 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Context Panel — Simplified                                         */
+/*  Context Panel                                                      */
 /* ------------------------------------------------------------------ */
 function ContextPanel() {
   const stats = [
@@ -295,17 +293,17 @@ function ContextPanel() {
     <div className="sticky top-6">
       <Card>
         <CardContent className="p-4 space-y-0">
-          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Your Snapshot</p>
+          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground mb-3">Your Snapshot</p>
           {stats.map((s, i) => (
             <div key={s.label}>
               <div className="flex justify-between py-1.5 text-sm">
                 <span className="text-muted-foreground">{s.label}</span>
-                <span className="font-medium">{s.value}</span>
+                <span className="font-medium text-foreground tabular-nums">{s.value}</span>
               </div>
               {i < stats.length - 1 && <Separator />}
             </div>
           ))}
-          <p className="text-xs text-muted-foreground mt-4 pt-3 border-t">
+          <p className="text-xs text-muted-foreground mt-4 pt-3 border-t border-border">
             AI responses are based on your live channel data
           </p>
         </CardContent>
@@ -330,18 +328,15 @@ export default function AIAdvisor() {
   const handleSend = (text?: string) => {
     const value = text ?? input.trim();
     if (!value) return;
-
     const userMsg: ChatMessage = {
       id: Date.now().toString(), role: "user", text: value, timestamp: "Just now",
     };
     const typingMsg: ChatMessage = {
       id: (Date.now() + 1).toString(), role: "assistant", typing: true, timestamp: "",
     };
-
     setMessages((prev) => [...prev, userMsg, typingMsg]);
     setInput("");
     setShowSuggestions(false);
-
     setTimeout(() => {
       const aiMsg: ChatMessage = {
         id: (Date.now() + 2).toString(), role: "assistant",
@@ -360,8 +355,8 @@ export default function AIAdvisor() {
       <div className="flex-1 lg:w-[65%] flex flex-col min-w-0">
         <div className="mb-4 shrink-0">
           <div className="flex items-center gap-2">
-            <Sparkles className="h-6 w-6 text-purple-500" />
-            <h1 className="text-2xl font-bold tracking-tight">AI Advisor</h1>
+            <Sparkles className="h-5 w-5 text-primary" />
+            <h1 className="text-xl font-semibold text-foreground tracking-tight">AI Advisor</h1>
           </div>
           <p className="text-sm text-muted-foreground mt-1">
             Ask anything about your channel, audience, or brand strategy
@@ -372,15 +367,15 @@ export default function AIAdvisor() {
           <div className="pr-4">
             {isEmpty || showSuggestions ? (
               <div className="flex flex-col items-center justify-center py-16 text-center">
-                <Sparkles className="h-12 w-12 text-purple-300 mb-4" />
-                <h2 className="text-lg font-semibold">What would you like to know?</h2>
+                <Sparkles className="h-10 w-10 text-muted-foreground/30 mb-4" />
+                <h2 className="text-lg font-semibold text-foreground">What would you like to know?</h2>
                 <p className="text-sm text-muted-foreground mb-6">Ask about your analytics, audience, or brand strategy</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-w-lg">
                   {suggestedQuestions.map((q) => (
                     <button
                       key={q.label}
                       onClick={() => handleSend(q.label)}
-                      className="flex items-center gap-2 rounded-lg border bg-card p-3 text-left text-sm hover:bg-accent transition-colors"
+                      className="flex items-center gap-2 rounded-md border border-border bg-card p-3 text-left text-sm text-foreground hover:bg-secondary transition-colors"
                     >
                       <q.icon className="h-4 w-4 shrink-0 text-muted-foreground" />
                       <span>{q.label}</span>
@@ -396,7 +391,7 @@ export default function AIAdvisor() {
         </ScrollArea>
 
         {/* Input */}
-        <div className="shrink-0 pt-4 border-t mt-2">
+        <div className="shrink-0 pt-4 border-t border-border mt-2">
           <form
             onSubmit={(e) => { e.preventDefault(); handleSend(); }}
             className="flex gap-2"
@@ -407,11 +402,11 @@ export default function AIAdvisor() {
               placeholder="Ask about your channel, audience, or brand strategy..."
               className="flex-1"
             />
-            <Button type="submit" size="icon" className="bg-purple-600 hover:bg-purple-700">
+            <Button type="submit" size="icon">
               <Send className="h-4 w-4" />
             </Button>
           </form>
-          <p className="text-[10px] text-muted-foreground mt-1.5">
+          <p className="text-xs text-muted-foreground mt-1.5">
             AI Advisor uses your YouTube Analytics and scan data to answer questions
           </p>
         </div>

@@ -16,10 +16,10 @@ export default function SettingsPage() {
 
   return (
     <div className="space-y-6 max-w-3xl">
-      <h1 className="text-2xl font-bold">Settings</h1>
+      <h1 className="text-xl font-semibold text-foreground">Settings</h1>
 
       <Card>
-        <CardHeader><CardTitle className="text-lg">Creator Preferences</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Creator Preferences</CardTitle></CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label>Niche</Label>
@@ -53,12 +53,12 @@ export default function SettingsPage() {
               ))}
             </div>
           </div>
-          <Button>Save Changes</Button>
+          <Button size="sm">Save Changes</Button>
         </CardContent>
       </Card>
 
       <Card>
-        <CardHeader><CardTitle className="text-lg">Outreach Settings</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Outreach Settings</CardTitle></CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label>Affinity Threshold</Label>
@@ -73,29 +73,29 @@ export default function SettingsPage() {
             <Label>Auto-send</Label>
             <div className="flex items-center gap-2">
               <Switch />
-              <span className="text-xs text-red-500 font-medium">OFF</span>
+              <span className="text-xs text-red-600 font-medium">OFF</span>
             </div>
           </div>
           <div className="space-y-2">
             <Label>Re-contact Window</Label>
             <Input defaultValue="90 days" />
           </div>
-          <Button>Save Changes</Button>
+          <Button size="sm">Save Changes</Button>
         </CardContent>
       </Card>
 
       <Card>
-        <CardHeader><CardTitle className="text-lg">Account</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Account</CardTitle></CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center gap-3">
-            <Youtube className="h-5 w-5 text-red-500" />
-            <span className="font-semibold">Wes Mukkati</span>
+            <Youtube className="h-5 w-5 text-red-600" />
+            <span className="font-medium text-foreground">Wes Mukkati</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="h-2 w-2 rounded-full bg-green-500" />
+            <div className="h-2 w-2 rounded-full bg-green-600" />
             <span className="text-sm text-muted-foreground">YouTube Analytics connected</span>
           </div>
-          <Button variant="destructive" size="sm">Disconnect</Button>
+          <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700 hover:bg-red-50">Disconnect</Button>
         </CardContent>
       </Card>
     </div>

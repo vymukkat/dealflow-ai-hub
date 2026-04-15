@@ -9,10 +9,10 @@ import {
 } from "@/components/ui/table";
 
 const kpis = [
-  { label: "Dealflow Revenue", value: "$4,500", sub: "Brand deals this month", icon: TrendingUp, bg: "bg-pastel-green" },
-  { label: "Avg Deal Value", value: "$1,500", sub: "Per closed deal", icon: DollarSign, bg: "bg-pastel-blue" },
-  { label: "Deals Closed", value: "3", sub: "This month", icon: CheckCircle2, bg: "bg-pastel-purple" },
-  { label: "YouTube AdSense", value: "$820", sub: "AdSense this month", icon: PlayCircle, bg: "bg-pastel-orange" },
+  { label: "Dealflow Revenue", value: "$4,500", sub: "Brand deals this month", icon: TrendingUp },
+  { label: "Avg Deal Value", value: "$1,500", sub: "Per closed deal", icon: DollarSign },
+  { label: "Deals Closed", value: "3", sub: "This month", icon: CheckCircle2 },
+  { label: "YouTube AdSense", value: "$820", sub: "AdSense this month", icon: PlayCircle },
 ];
 
 const deals = [
@@ -55,8 +55,8 @@ export default function Revenue() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Revenue</h1>
-          <p className="text-muted-foreground">Your total creator earnings — brand deals + YouTube</p>
+          <h1 className="text-xl font-semibold text-foreground">Revenue</h1>
+          <p className="text-sm text-muted-foreground">Your total creator earnings — brand deals + YouTube</p>
         </div>
         <Select defaultValue="apr-2026">
           <SelectTrigger className="w-[160px]"><SelectValue /></SelectTrigger>
@@ -71,17 +71,15 @@ export default function Revenue() {
       {/* KPI Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {kpis.map((k) => (
-          <Card key={k.label} className={`${k.bg} border-0`}>
+          <Card key={k.label}>
             <CardContent className="p-4">
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-[10px] font-semibold uppercase text-muted-foreground">{k.label}</p>
-                  <p className="text-2xl font-bold mt-1">{k.value}</p>
-                  <p className="text-[10px] text-muted-foreground mt-0.5">{k.sub}</p>
+                  <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{k.label}</p>
+                  <p className="text-2xl font-semibold text-foreground tabular-nums mt-1">{k.value}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{k.sub}</p>
                 </div>
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
-                  <k.icon className="h-4 w-4 text-primary" />
-                </div>
+                <k.icon className="h-4 w-4 text-muted-foreground" />
               </div>
             </CardContent>
           </Card>
@@ -91,28 +89,28 @@ export default function Revenue() {
       {/* Dealflow Contribution */}
       <Card>
         <CardContent className="p-6 text-center space-y-4">
-          <p className="text-5xl font-bold text-primary">{dealflowPct}%</p>
-          <p className="text-muted-foreground">of your total creator revenue came from Dealflow this month</p>
-          <div className="w-full h-6 rounded-full overflow-hidden flex bg-muted">
-            <div className="bg-primary h-full flex items-center justify-center text-[10px] font-semibold text-primary-foreground" style={{ width: `${dealflowPct}%` }}>
+          <p className="text-5xl font-semibold text-primary tabular-nums">{dealflowPct}%</p>
+          <p className="text-sm text-muted-foreground">of your total creator revenue came from Dealflow this month</p>
+          <div className="w-full h-5 rounded-md overflow-hidden flex bg-secondary">
+            <div className="bg-primary h-full flex items-center justify-center text-[10px] font-medium text-primary-foreground" style={{ width: `${dealflowPct}%` }}>
               Dealflow $4,500
             </div>
-            <div className="bg-muted-foreground/20 h-full flex-1 flex items-center justify-center text-[10px] font-semibold text-muted-foreground">
+            <div className="bg-muted-foreground/20 h-full flex-1 flex items-center justify-center text-[10px] font-medium text-muted-foreground">
               YouTube $820
             </div>
           </div>
-          <p className="text-sm text-muted-foreground">Total creator revenue: $5,320 in April 2026</p>
+          <p className="text-xs text-muted-foreground">Total creator revenue: $5,320 in April 2026</p>
         </CardContent>
       </Card>
 
       {/* Deal Breakdown + Pipeline */}
       <div className="grid lg:grid-cols-2 gap-4">
         <Card>
-          <CardHeader><CardTitle className="text-lg">Brand Deal Breakdown</CardTitle></CardHeader>
+          <CardHeader><CardTitle>Brand Deal Breakdown</CardTitle></CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
-                <TableRow>
+                <TableRow className="hover:bg-transparent">
                   <TableHead>Brand</TableHead>
                   <TableHead>Deal Value</TableHead>
                   <TableHead>Date</TableHead>
@@ -122,13 +120,13 @@ export default function Revenue() {
               </TableHeader>
               <TableBody>
                 {deals.map((d) => (
-                  <TableRow key={d.brand}>
-                    <TableCell className="font-medium">{d.brand}</TableCell>
-                    <TableCell className="font-semibold">{d.value}</TableCell>
+                  <TableRow key={d.brand} className="hover:bg-secondary/50">
+                    <TableCell className="font-medium text-foreground">{d.brand}</TableCell>
+                    <TableCell className="font-medium tabular-nums text-foreground">{d.value}</TableCell>
                     <TableCell className="text-sm text-muted-foreground">{d.date}</TableCell>
-                    <TableCell className="text-sm">{d.format}</TableCell>
+                    <TableCell className="text-sm text-muted-foreground">{d.format}</TableCell>
                     <TableCell>
-                      <Badge variant="outline" className={d.status === "Paid" ? "bg-green-50 text-green-700 border-green-200" : "bg-purple-50 text-purple-700 border-purple-200"}>
+                      <Badge variant="outline" className={d.status === "Paid" ? "bg-green-50 text-green-600 border-green-200" : "bg-blue-50 text-blue-600 border-blue-200"}>
                         {d.status}
                       </Badge>
                     </TableCell>
@@ -141,42 +139,42 @@ export default function Revenue() {
         </Card>
 
         <Card>
-          <CardHeader><CardTitle className="text-lg">Pipeline Value</CardTitle></CardHeader>
+          <CardHeader><CardTitle>Pipeline Value</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <p className="text-xs font-semibold uppercase text-muted-foreground mb-2">In Negotiation</p>
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-2">In Negotiation</p>
               {negotiation.map((n) => (
                 <div key={n.brand} className="flex items-center justify-between py-1.5 text-sm">
-                  <span className="font-medium">{n.brand}</span>
+                  <span className="font-medium text-foreground">{n.brand}</span>
                   <div className="flex items-center gap-3">
                     <span className="text-muted-foreground text-xs">{n.format}</span>
-                    <span className="font-semibold">{n.value}</span>
+                    <span className="font-medium text-foreground tabular-nums">{n.value}</span>
                   </div>
                 </div>
               ))}
               <div className="flex justify-between pt-2 border-t mt-2">
-                <span className="text-sm font-medium">Subtotal</span>
-                <span className="font-bold text-amber-600">$3,700</span>
+                <span className="text-sm font-medium text-foreground">Subtotal</span>
+                <span className="font-semibold text-amber-600 tabular-nums">$3,700</span>
               </div>
             </div>
 
             <div>
-              <p className="text-xs font-semibold uppercase text-muted-foreground mb-2">Prospecting (weighted 30%)</p>
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-2">Prospecting (weighted 30%)</p>
               {prospecting.map((p) => (
                 <div key={p.brand} className="flex items-center justify-between py-1.5 text-sm">
-                  <span className="font-medium">{p.brand}</span>
-                  <span className="text-muted-foreground">{p.value}</span>
+                  <span className="font-medium text-foreground">{p.brand}</span>
+                  <span className="text-muted-foreground tabular-nums">{p.value}</span>
                 </div>
               ))}
               <div className="flex justify-between pt-2 border-t mt-2">
-                <span className="text-sm font-medium">Subtotal</span>
-                <span className="font-medium text-muted-foreground">~$1,080</span>
+                <span className="text-sm font-medium text-foreground">Subtotal</span>
+                <span className="font-medium text-muted-foreground tabular-nums">~$1,080</span>
               </div>
             </div>
 
             <div className="flex justify-between pt-3 border-t">
-              <span className="font-semibold">Total pipeline value</span>
-              <span className="font-bold text-lg">$4,780</span>
+              <span className="font-semibold text-foreground">Total pipeline value</span>
+              <span className="font-semibold text-lg text-foreground tabular-nums">$4,780</span>
             </div>
             <p className="text-xs text-muted-foreground">Prospecting weighted at 30% probability</p>
           </CardContent>
@@ -184,10 +182,10 @@ export default function Revenue() {
       </div>
 
       {/* YouTube AdSense Context */}
-      <Card className="bg-muted/30">
+      <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
-            <CardTitle className="text-lg">YouTube AdSense Context</CardTitle>
+            <CardTitle>YouTube AdSense Context</CardTitle>
             <Badge variant="secondary" className="text-xs">For context</Badge>
           </div>
         </CardHeader>
@@ -195,7 +193,7 @@ export default function Revenue() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {adSenseStats.map((s) => (
               <div key={s.label} className="text-center">
-                <p className="text-xl font-bold">{s.value}</p>
+                <p className="text-xl font-semibold text-foreground tabular-nums">{s.value}</p>
                 <p className="text-xs text-muted-foreground">{s.label}</p>
               </div>
             ))}
@@ -207,17 +205,17 @@ export default function Revenue() {
       </Card>
 
       {/* Rate Card Insight */}
-      <Card className="bg-blue-50/50 border-blue-200">
+      <Card className="border-l-4 border-l-primary">
         <CardContent className="p-6 space-y-3">
           <div className="flex items-center gap-2">
             <Lightbulb className="h-4 w-4 text-primary" />
-            <p className="font-semibold text-sm">Your suggested rate card</p>
+            <p className="font-semibold text-sm text-foreground">Your suggested rate card</p>
           </div>
           <div className="space-y-2">
             {rateCard.map((r) => (
-              <div key={r.type} className="flex items-center justify-between py-2 border-b last:border-0">
-                <span className="text-sm">{r.type}</span>
-                <span className="font-semibold text-sm">{r.range}</span>
+              <div key={r.type} className="flex items-center justify-between py-2 border-b border-border last:border-0">
+                <span className="text-sm text-foreground">{r.type}</span>
+                <span className="font-medium text-sm text-foreground tabular-nums">{r.range}</span>
               </div>
             ))}
           </div>
