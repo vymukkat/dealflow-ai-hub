@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import { ViewsTrendChart } from "@/components/charts/ViewsTrendChart";
@@ -23,12 +22,12 @@ const viewsDataMap: Record<string, typeof viewsWatchTimeData> = {
 };
 
 const summaryCards = [
-  { label: "Views", value: "184K", delta: "+12%", bg: "bg-pastel-blue" },
-  { label: "Watch Time", value: "48.2K min", delta: "+8%", bg: "bg-pastel-green" },
-  { label: "Subscribers", value: "+5,120", delta: "+4.2%", bg: "bg-pastel-purple" },
-  { label: "Impressions", value: "6.72M", delta: "+6%", bg: "bg-pastel-orange" },
-  { label: "CTR", value: "6.2%", delta: "+0.3%", bg: "bg-pastel-pink" },
-  { label: "Avg Duration", value: "6m 42s", delta: "-2%", bg: "bg-pastel-blue" },
+  { label: "Views", value: "184K", delta: "+12%" },
+  { label: "Watch Time", value: "48.2K min", delta: "+8%" },
+  { label: "Subscribers", value: "+5,120", delta: "+4.2%" },
+  { label: "Impressions", value: "6.72M", delta: "+6%" },
+  { label: "CTR", value: "6.2%", delta: "+0.3%" },
+  { label: "Avg Duration", value: "6m 42s", delta: "-2%" },
 ];
 
 export default function Analytics() {
@@ -38,8 +37,8 @@ export default function Analytics() {
     <div className="space-y-6 max-w-7xl">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Analytics</h1>
-          <p className="text-muted-foreground">Deep-dive into your YouTube performance</p>
+          <h1 className="text-xl font-semibold text-foreground">Analytics</h1>
+          <p className="text-sm text-muted-foreground">Deep-dive into your YouTube performance</p>
         </div>
         <div className="flex items-center gap-3">
           <Tabs value={range} onValueChange={setRange}>
@@ -56,11 +55,11 @@ export default function Analytics() {
       {/* Summary KPIs */}
       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
         {summaryCards.map((c) => (
-          <Card key={c.label} className={`${c.bg} border-0`}>
+          <Card key={c.label}>
             <CardContent className="p-3 text-center">
-              <p className="text-lg font-bold">{c.value}</p>
-              <p className="text-[10px] text-muted-foreground">{c.label}</p>
-              <Badge variant="secondary" className="text-[10px] mt-1">{c.delta}</Badge>
+              <p className="text-lg font-semibold text-foreground tabular-nums">{c.value}</p>
+              <p className="text-xs text-muted-foreground">{c.label}</p>
+              <p className={`text-xs font-medium mt-1 tabular-nums ${c.delta.startsWith("+") ? "text-green-600" : "text-red-600"}`}>{c.delta}</p>
             </CardContent>
           </Card>
         ))}
@@ -68,7 +67,7 @@ export default function Analytics() {
 
       {/* Views & Watch Time */}
       <Card>
-        <CardHeader><CardTitle className="text-lg">Views & Watch Time</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Views & Watch Time</CardTitle></CardHeader>
         <CardContent>
           <ViewsTrendChart data={viewsDataMap[range]} />
         </CardContent>
@@ -76,41 +75,41 @@ export default function Analytics() {
 
       {/* Subscriber Growth */}
       <Card>
-        <CardHeader><CardTitle className="text-lg">Subscriber Growth</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Subscriber Growth</CardTitle></CardHeader>
         <CardContent><SubscriberChart data={subscriberGrowthData} /></CardContent>
       </Card>
 
       {/* Impressions & CTR */}
       <Card>
-        <CardHeader><CardTitle className="text-lg">Impressions & CTR</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Impressions & CTR</CardTitle></CardHeader>
         <CardContent><ImpressionsChart data={impressionsCtrData} /></CardContent>
       </Card>
 
       {/* Engagement */}
       <Card>
-        <CardHeader><CardTitle className="text-lg">Engagement (Likes · Comments · Shares)</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Engagement (Likes · Comments · Shares)</CardTitle></CardHeader>
         <CardContent><EngagementChart data={engagementData} /></CardContent>
       </Card>
 
       {/* Audience pies */}
       <div className="grid lg:grid-cols-3 gap-4">
         <Card>
-          <CardHeader><CardTitle className="text-lg">Subscriber Sources</CardTitle></CardHeader>
+          <CardHeader><CardTitle>Subscriber Sources</CardTitle></CardHeader>
           <CardContent><TrafficSourcesPie data={subscriberSources} nameKey="source" /></CardContent>
         </Card>
         <Card>
-          <CardHeader><CardTitle className="text-lg">New vs Returning</CardTitle></CardHeader>
+          <CardHeader><CardTitle>New vs Returning</CardTitle></CardHeader>
           <CardContent><TrafficSourcesPie data={newVsReturning} innerRadius={60} /></CardContent>
         </Card>
         <Card>
-          <CardHeader><CardTitle className="text-lg">OS Breakdown</CardTitle></CardHeader>
+          <CardHeader><CardTitle>OS Breakdown</CardTitle></CardHeader>
           <CardContent><TrafficSourcesPie data={osSplit} innerRadius={50} /></CardContent>
         </Card>
       </div>
 
       {/* Top Videos */}
       <Card>
-        <CardHeader><CardTitle className="text-lg">Top Videos</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Top Videos</CardTitle></CardHeader>
         <CardContent><TopVideosTable limit={10} /></CardContent>
       </Card>
     </div>

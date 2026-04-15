@@ -60,26 +60,26 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar className="border-r">
+    <Sidebar className="border-r border-border bg-card">
       <SidebarHeader className="p-4 pb-2">
         <Link to="/" className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
             <Zap className="h-4 w-4 text-primary-foreground" />
           </div>
-          <span className="text-lg font-bold tracking-tight">Dealflow AI</span>
+          <span className="text-lg font-bold tracking-tight text-foreground">Dealflow AI</span>
         </Link>
-        <div className="mt-3 flex items-center gap-2 rounded-full bg-secondary px-3 py-1.5">
-          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+        <div className="mt-3 flex items-center gap-2 rounded-md bg-secondary px-3 py-1.5">
+          <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-xs font-medium text-primary-foreground">
             W
           </div>
-          <span className="text-sm font-medium">Wes Mukkati</span>
+          <span className="text-sm font-medium text-foreground">Wes Mukkati</span>
         </div>
       </SidebarHeader>
 
       <SidebarContent className="px-2">
         {navSections.map((section) => (
           <SidebarGroup key={section.label}>
-            <SidebarGroupLabel className="text-[10px] font-semibold tracking-widest text-muted-foreground">
+            <SidebarGroupLabel className="text-xs font-medium tracking-wider text-muted-foreground uppercase">
               {section.label}
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -89,21 +89,21 @@ export function AppSidebar() {
                     <SidebarMenuButton asChild>
                       <Link
                         to={item.url}
-                        className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors ${
+                        className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors ${
                           isActive(item.url)
-                            ? "bg-primary text-primary-foreground font-medium"
-                            : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                            ? "bg-secondary text-foreground font-medium"
+                            : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                         }`}
                       >
                         <item.icon className="h-4 w-4" />
                         <span>{item.title}</span>
                         {item.badge && (
-                          <Badge className="ml-auto h-5 bg-orange-500 text-[10px] text-white hover:bg-orange-500">
+                          <Badge className="ml-auto h-5 bg-amber-600 text-[10px] text-white border-0">
                             {item.badge}
                           </Badge>
                         )}
                         {(item as any).dotBadge && (
-                          <span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-amber-500 text-[10px] font-medium text-white">
+                          <span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-md bg-amber-600 text-[10px] font-medium text-white">
                             {(item as any).dotBadge}
                           </span>
                         )}

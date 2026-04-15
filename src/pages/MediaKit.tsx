@@ -53,12 +53,12 @@ export default function MediaKit() {
     <div className="space-y-6 max-w-7xl">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Wes Mukkati</h1>
-          <p className="text-muted-foreground">Hockey</p>
+          <h1 className="text-xl font-semibold text-foreground">Wes Mukkati</h1>
+          <p className="text-sm text-muted-foreground">Hockey</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline">Sync YouTube</Button>
-          <Button>Download PDF</Button>
+          <Button variant="outline" size="sm">Sync YouTube</Button>
+          <Button size="sm">Download PDF</Button>
         </div>
       </div>
 
@@ -66,15 +66,15 @@ export default function MediaKit() {
         {stats.map((s) => (
           <Card key={s.label}>
             <CardContent className="p-4 text-center">
-              <p className="text-xl font-bold">{s.value}</p>
-              <p className="text-[10px] text-muted-foreground">{s.label}</p>
+              <p className="text-lg font-semibold text-foreground tabular-nums">{s.value}</p>
+              <p className="text-xs text-muted-foreground">{s.label}</p>
             </CardContent>
           </Card>
         ))}
       </div>
 
       <Card>
-        <CardHeader><CardTitle className="text-lg">Creator Bio</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Creator Bio</CardTitle></CardHeader>
         <CardContent>
           <p className="text-sm leading-relaxed text-muted-foreground">
             Wes Mukkati is one of Australia's leading hockey content creators, delivering in-depth analysis, game highlights, and player interviews to a highly engaged audience of 124K subscribers. Known for sharp tactical breakdowns and authentic storytelling...
@@ -82,9 +82,8 @@ export default function MediaKit() {
         </CardContent>
       </Card>
 
-      {/* Engagement Trend Mini Chart */}
       <Card>
-        <CardHeader><CardTitle className="text-lg">Engagement Trend (28 Days)</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Engagement Trend (28 Days)</CardTitle></CardHeader>
         <CardContent>
           <EngagementChart data={engagementData} />
         </CardContent>
@@ -92,26 +91,26 @@ export default function MediaKit() {
 
       <div className="grid lg:grid-cols-2 gap-4">
         <Card>
-          <CardHeader><CardTitle className="text-lg">Audience Geography</CardTitle></CardHeader>
+          <CardHeader><CardTitle>Audience Geography</CardTitle></CardHeader>
           <CardContent>
             {countries.map((c) => (
               <div key={c.code} className="flex items-center gap-3 mb-3">
-                <span className="text-xs font-semibold w-6">{c.code}</span>
-                <Progress value={c.pct} className="h-2 flex-1" />
-                <span className="text-xs text-muted-foreground w-8 text-right">{c.pct}%</span>
+                <span className="text-xs font-medium w-6 text-foreground tabular-nums">{c.code}</span>
+                <Progress value={c.pct} className="h-1.5 flex-1" />
+                <span className="text-xs text-muted-foreground w-8 text-right tabular-nums">{c.pct}%</span>
               </div>
             ))}
           </CardContent>
         </Card>
         <Card>
-          <CardHeader><CardTitle className="text-lg">Device Breakdown</CardTitle></CardHeader>
+          <CardHeader><CardTitle>Device Breakdown</CardTitle></CardHeader>
           <CardContent>
             {devices.map((d) => (
               <div key={d.label} className="flex items-center gap-3 mb-3">
                 <d.icon className="h-4 w-4 text-muted-foreground" />
-                <span className="text-xs w-14">{d.label}</span>
-                <Progress value={d.pct} className="h-2 flex-1 [&>div]:bg-green-500" />
-                <span className="text-xs text-muted-foreground w-8 text-right">{d.pct}%</span>
+                <span className="text-xs w-14 text-foreground">{d.label}</span>
+                <Progress value={d.pct} className="h-1.5 flex-1" />
+                <span className="text-xs text-muted-foreground w-8 text-right tabular-nums">{d.pct}%</span>
               </div>
             ))}
           </CardContent>
@@ -119,18 +118,18 @@ export default function MediaKit() {
       </div>
 
       <Card>
-        <CardHeader><CardTitle className="text-lg">Age & Gender</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Age & Gender</CardTitle></CardHeader>
         <CardContent>
           <div className="space-y-3">
-            <div className="grid grid-cols-4 text-xs font-semibold text-muted-foreground">
+            <div className="grid grid-cols-4 text-xs font-medium text-muted-foreground">
               <span>Age Group</span><span>Male</span><span>Female</span><span>Distribution</span>
             </div>
             {ageGender.map((row) => (
               <div key={row.age} className="grid grid-cols-4 items-center text-sm">
-                <span className="font-medium">{row.age}</span>
-                <span>{row.male}%</span>
-                <span>{row.female}%</span>
-                <div className="flex h-3 rounded-full overflow-hidden bg-muted">
+                <span className="font-medium text-foreground">{row.age}</span>
+                <span className="text-foreground tabular-nums">{row.male}%</span>
+                <span className="text-foreground tabular-nums">{row.female}%</span>
+                <div className="flex h-2 rounded-sm overflow-hidden bg-secondary">
                   <div className="bg-primary" style={{ width: `${row.male}%` }} />
                   <div className="bg-pink-400" style={{ width: `${row.female}%` }} />
                 </div>
@@ -141,21 +140,20 @@ export default function MediaKit() {
       </Card>
 
       <Card>
-        <CardHeader><CardTitle className="text-lg">Traffic Sources</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Traffic Sources</CardTitle></CardHeader>
         <CardContent>
           {traffic.map((t) => (
             <div key={t.source} className="flex items-center gap-3 mb-3">
-              <span className="text-xs w-32">{t.source}</span>
-              <Progress value={t.pct} className="h-2 flex-1" />
-              <span className="text-xs text-muted-foreground w-8 text-right">{t.pct}%</span>
+              <span className="text-xs w-32 text-foreground">{t.source}</span>
+              <Progress value={t.pct} className="h-1.5 flex-1" />
+              <span className="text-xs text-muted-foreground w-8 text-right tabular-nums">{t.pct}%</span>
             </div>
           ))}
         </CardContent>
       </Card>
 
-      {/* Top Search Terms */}
       <Card>
-        <CardHeader><CardTitle className="text-lg">Top Search Terms</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Top Search Terms</CardTitle></CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
             {topSearchTerms.slice(0, 8).map((t) => (
@@ -168,22 +166,22 @@ export default function MediaKit() {
       </Card>
 
       <Card>
-        <CardHeader><CardTitle className="text-lg">Previously Detected Sponsors</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Previously Detected Sponsors</CardTitle></CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
             {detectedSponsors.map((s) => (
-              <Badge key={s} className="bg-indigo-100 text-indigo-700 hover:bg-indigo-100">{s}</Badge>
+              <Badge key={s} variant="secondary" className="bg-secondary text-muted-foreground border border-border">{s}</Badge>
             ))}
           </div>
         </CardContent>
       </Card>
 
       <Card>
-        <CardHeader><CardTitle className="text-lg">Partnership Details</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Partnership Details</CardTitle></CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 gap-4 text-sm">
-            <div><span className="text-muted-foreground">Deal Minimum:</span> <span className="font-semibold">$2,000</span></div>
-            <div><span className="text-muted-foreground">Preferred Format:</span> <span className="font-semibold">Integration</span></div>
+            <div><span className="text-muted-foreground">Deal Minimum:</span> <span className="font-medium text-foreground">$2,000</span></div>
+            <div><span className="text-muted-foreground">Preferred Format:</span> <span className="font-medium text-foreground">Integration</span></div>
             <div className="col-span-2">
               <span className="text-muted-foreground">Open Categories: </span>
               {["Sports Betting", "VPN/Privacy", "Health/Nutrition", "Grooming"].map((c) => (
