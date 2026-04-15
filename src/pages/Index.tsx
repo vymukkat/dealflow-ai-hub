@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Users, PlayCircle, Target, Mail, Zap, DollarSign, Clock, Eye, TrendingUp, MousePointerClick, Smartphone, Monitor, Tv } from "lucide-react";
+import { Users, PlayCircle, Zap, DollarSign, Clock, TrendingUp, MousePointerClick, Smartphone, Monitor, Tv } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,6 @@ import {
   revenueData, revenueMonthly, revenueByAdType, revenueByCountry,
   subscriberGrowthData, engagementData, impressionsCtrData,
   contentSplit, cardEndScreen, kpiSummary,
-  trafficSourcesFull, topVideos,
 } from "@/lib/dummyData";
 
 const kpis = [

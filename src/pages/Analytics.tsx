@@ -16,7 +16,6 @@ import {
   revenueData, revenueMonthly, revenueByAdType,
   subscriberGrowthData, engagementData, impressionsCtrData,
   subscriberSources, newVsReturning, osSplit,
-  kpiSummary,
 } from "@/lib/dummyData";
 
 const viewsDataMap: Record<string, typeof viewsWatchTimeData> = {

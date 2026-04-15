@@ -8,7 +8,8 @@ const COLORS = [
 ];
 
 interface PieData {
-  name: string;
+  name?: string;
+  source?: string;
   value: number;
   fill?: string;
 }
