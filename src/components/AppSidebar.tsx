@@ -1,7 +1,7 @@
 import { useLocation, Link } from "react-router-dom";
 import {
   LayoutDashboard, Radar, Bug, Mail, Kanban, Send,
-  User, Users, Settings, Zap, BarChart3,
+  User, Users, Settings, Zap, BarChart3, Building2,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarFooter, SidebarHeader,
@@ -31,6 +31,7 @@ const navSections = [
       { title: "Email Drafts", url: "/drafts", icon: Mail },
       { title: "Pipeline", url: "/pipeline", icon: Kanban },
       { title: "Sent", url: "/sent", icon: Send },
+      { title: "Brands", url: "/brands", icon: Building2 },
     ],
   },
   {

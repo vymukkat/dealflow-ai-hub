@@ -14,6 +14,7 @@ import Audience from "./pages/Audience";
 import ScanDebug from "./pages/ScanDebug";
 import SettingsPage from "./pages/Settings";
 import Analytics from "./pages/Analytics";
+import Brands from "./pages/Brands";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
             <Route path="/drafts" element={<Drafts />} />
             <Route path="/pipeline" element={<Pipeline />} />
             <Route path="/sent" element={<Sent />} />
+            <Route path="/brands" element={<Brands />} />
             <Route path="/media-kit" element={<MediaKit />} />
             <Route path="/audience" element={<Audience />} />
             <Route path="/scan-debug" element={<ScanDebug />} />
