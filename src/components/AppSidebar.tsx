@@ -1,7 +1,7 @@
 import { useLocation, Link } from "react-router-dom";
 import {
   LayoutDashboard, Radar, Bug, Mail, Kanban, Send,
-  User, Users, Settings, Zap, BarChart3, Building2,
+  User, Users, Settings, Zap, BarChart3, Building2, Sparkles,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarFooter, SidebarHeader,
@@ -22,6 +22,7 @@ const navSections = [
     label: "INTELLIGENCE",
     items: [
       { title: "Brand Radar", url: "/brand-radar", icon: Radar },
+      { title: "AI Advisor", url: "/ai-advisor", icon: Sparkles },
       { title: "Scan Debug", url: "/scan-debug", icon: Bug, badge: "DEV" },
     ],
   },

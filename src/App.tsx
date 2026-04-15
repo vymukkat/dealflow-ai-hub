@@ -15,6 +15,7 @@ import ScanDebug from "./pages/ScanDebug";
 import SettingsPage from "./pages/Settings";
 import Analytics from "./pages/Analytics";
 import Brands from "./pages/Brands";
+import AIAdvisor from "./pages/AIAdvisor";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/brand-radar" element={<BrandRadar />} />
+            <Route path="/ai-advisor" element={<AIAdvisor />} />
             <Route path="/drafts" element={<Drafts />} />
             <Route path="/pipeline" element={<Pipeline />} />
             <Route path="/sent" element={<Sent />} />
