@@ -16,6 +16,7 @@ import SettingsPage from "./pages/Settings";
 import Analytics from "./pages/Analytics";
 import Brands from "./pages/Brands";
 import AIAdvisor from "./pages/AIAdvisor";
+import Revenue from "./pages/Revenue";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const App = () => (
             <Route path="/pipeline" element={<Pipeline />} />
             <Route path="/sent" element={<Sent />} />
             <Route path="/brands" element={<Brands />} />
+            <Route path="/revenue" element={<Revenue />} />
             <Route path="/media-kit" element={<MediaKit />} />
             <Route path="/audience" element={<Audience />} />
             <Route path="/scan-debug" element={<ScanDebug />} />

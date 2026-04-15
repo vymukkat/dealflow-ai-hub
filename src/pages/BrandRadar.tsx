@@ -200,7 +200,7 @@ export default function BrandRadar() {
 
   const toggle = (set: Set<string>, setter: React.Dispatch<React.SetStateAction<Set<string>>>, name: string) => {
     const next = new Set(set);
-    next.has(name) ? next.delete(name) : next.add(name);
+    if (next.has(name)) { next.delete(name); } else { next.add(name); }
     setter(next);
   };
 
