@@ -1,7 +1,7 @@
 import { useLocation, Link } from "react-router-dom";
 import {
   LayoutDashboard, Radar, Bug, Mail, Kanban, Send,
-  User, Users, Settings, Zap,
+  User, Users, Settings, Zap, BarChart3,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarFooter, SidebarHeader,
@@ -15,6 +15,7 @@ const navSections = [
     label: "OVERVIEW",
     items: [
       { title: "Dashboard", url: "/", icon: LayoutDashboard },
+      { title: "Analytics", url: "/analytics", icon: BarChart3 },
     ],
   },
   {
